@@ -1,0 +1,47 @@
+Expected SWI-Prolog transcript:
+
+?- [foil_prolog].
+true.
+
+?- foil_rule(d3).
+true.
+
+?- foil_rule(d1).
+false.
+
+?- play_tennis(d9, yes).
+true.
+
+?- classify(d1, Result).
+Result = no.
+
+?- classify(d9, Result).
+Result = yes.
+
+?- explain(d9).
+d9: outlook=sunny, temperature=cool, humidity=normal, wind=weak
+Predicted: yes, Actual: yes
+true.
+
+?- test_all.
+d1 -> predicted: no, actual: no
+d2 -> predicted: no, actual: no
+d3 -> predicted: yes, actual: yes
+d4 -> predicted: yes, actual: yes
+d5 -> predicted: yes, actual: yes
+d6 -> predicted: no, actual: no
+d7 -> predicted: yes, actual: yes
+d8 -> predicted: no, actual: no
+d9 -> predicted: yes, actual: yes
+d10 -> predicted: yes, actual: yes
+d11 -> predicted: yes, actual: yes
+d12 -> predicted: yes, actual: yes
+d13 -> predicted: yes, actual: yes
+d14 -> predicted: no, actual: no
+true.
+
+?- accuracy.
+Accuracy: 14/14 (100.00%)
+true.
+
+?- halt.
