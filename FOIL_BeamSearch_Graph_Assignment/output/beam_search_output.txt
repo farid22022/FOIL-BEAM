@@ -1,0 +1,83 @@
+Dataset Preparation
+-------------------
+Nodes: 1, 2, 3, 4, 5, 6
+Background predicate: edge(X,Y)
+Target predicate: path(X,Y)
+
+Edges:
+- edge(1,2).
+- edge(1,3).
+- edge(3,6).
+- edge(4,2).
+- edge(4,6).
+- edge(6,5).
+
+Positive path examples: 10
+Negative path examples: 26
+Closed-world assumption: pairs not listed as positive paths are negative.
+
+General-to-Specific Beam Search Started
+Target Predicate: path(X,Y)
+Beam width: 3
+
+Searching Rule 1
+Start Rule: path(X,Y) :- true.
+Iteration 1: Candidate rules generated = 5
+Generated candidate examples:
+  - path(X,Y) :- edge(X,Y).
+  - path(X,Y) :- edge(X,Z).
+Top 3 candidate rules:
+  1. path(X,Y) :- edge(X,Y). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+  2. path(X,Y) :- edge(X,Z). Accuracy=0.4167, Coverage=1.0000, p=10, n=14
+  3. path(X,Y) :- edge(Z,Y). Accuracy=0.4167, Coverage=1.0000, p=10, n=14
+
+Iteration 2: Candidate rules generated = 12
+Generated candidate examples:
+  - path(X,Y) :- edge(X,Z), edge(Z,Y).
+  - path(X,Y) :- edge(X,Z), path(Z,Y).
+Top 3 candidate rules:
+  1. path(X,Y) :- edge(X,Y), edge(X,Z). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+  2. path(X,Y) :- edge(X,Y), edge(Z,Y). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+  3. path(X,Y) :- edge(X,Y), path(Z,Y). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+
+Iteration 3: Candidate rules generated = 9
+Top 3 candidate rules:
+  1. path(X,Y) :- edge(X,Y), edge(X,Z), path(X,Z). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+  2. path(X,Y) :- edge(X,Y), edge(Z,Y), path(Z,Y). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+  3. path(X,Y) :- edge(X,Y), path(Z,Y), edge(Z,Y). Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+
+Selected Rule 1:
+path(X,Y) :- edge(X,Y).
+Accuracy=1.0000, Coverage=0.6000, p=6, n=0
+Remaining positive examples: 4
+
+Searching Rule 2
+Start Rule: path(X,Y) :- true.
+Iteration 1: Candidate rules generated = 5
+Generated candidate examples:
+  - path(X,Y) :- edge(X,Y).
+  - path(X,Y) :- edge(X,Z).
+Top 3 candidate rules:
+  1. path(X,Y) :- edge(X,Z). Accuracy=0.2222, Coverage=1.0000, p=4, n=14
+  2. path(X,Y) :- edge(Z,Y). Accuracy=0.2222, Coverage=1.0000, p=4, n=14
+  3. path(X,Y) :- path(Z,Y). Accuracy=0.2222, Coverage=1.0000, p=4, n=14
+
+Iteration 2: Candidate rules generated = 12
+Generated candidate examples:
+  - path(X,Y) :- edge(X,Z), edge(Z,Y).
+  - path(X,Y) :- edge(X,Z), path(Z,Y).
+Top 3 candidate rules:
+  1. path(X,Y) :- edge(X,Z), path(Z,Y). Accuracy=1.0000, Coverage=1.0000, p=4, n=0
+  2. path(X,Y) :- edge(Z,Y), path(X,Z). Accuracy=1.0000, Coverage=1.0000, p=4, n=0
+  3. path(X,Y) :- path(Z,Y), edge(X,Z). Accuracy=1.0000, Coverage=1.0000, p=4, n=0
+
+Selected Rule 2:
+path(X,Y) :- edge(X,Z), path(Z,Y).
+Accuracy=1.0000, Coverage=1.0000, p=4, n=0
+Remaining positive examples: 0
+
+Final Selected Rules:
+path(X,Y) :- edge(X,Y).
+path(X,Y) :- edge(X,Z), path(Z,Y).
+
+Beam Search Finished

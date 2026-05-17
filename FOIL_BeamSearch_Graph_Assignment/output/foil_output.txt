@@ -1,0 +1,79 @@
+Dataset Preparation
+-------------------
+Nodes: 1, 2, 3, 4, 5, 6
+Background predicate: edge(X,Y)
+Target predicate: path(X,Y)
+
+Edges:
+- edge(1,2).
+- edge(1,3).
+- edge(3,6).
+- edge(4,2).
+- edge(4,6).
+- edge(6,5).
+
+Positive path examples: 10
+Negative path examples: 26
+Closed-world assumption: pairs not listed as positive paths are negative.
+
+FOIL Learning Started
+Target Predicate: path(X,Y)
+Positive examples: 10
+Negative examples: 26
+
+Learning Rule 1
+Initial Rule: path(X,Y) :- true.
+
+Current coverage: p0=10, n0=26
+Candidate literals and FOIL Gain:
+  Candidate Literal: edge(X,Y)    p1= 6, n1= 0, FOIL Gain=11.0880
+  Candidate Literal: edge(X,Z)    p1=10, n1=14, FOIL Gain=5.8496
+  Candidate Literal: edge(Z,Y)    p1=10, n1=14, FOIL Gain=5.8496
+  Candidate Literal: path(Z,Y)    p1=10, n1=14, FOIL Gain=5.8496
+  Candidate Literal: path(X,Z)    p1=10, n1=14, FOIL Gain=5.8496
+Selected Literal: edge(X,Y)
+Selected FOIL Gain: 11.0880
+Updated Rule: path(X,Y) :- edge(X,Y).
+Updated coverage: p1=6, n1=0
+
+Learned Rule 1:
+path(X,Y) :- edge(X,Y).
+Positive examples covered: 6
+Remaining positive examples: 4
+
+Learning Rule 2
+Initial Rule: path(X,Y) :- true.
+
+Current coverage: p0=4, n0=26
+Candidate literals and FOIL Gain:
+  Candidate Literal: edge(X,Y)    p1= 0, n1= 0, FOIL Gain=-inf
+  Candidate Literal: edge(X,Z)    p1= 4, n1=14, FOIL Gain=2.9479
+  Candidate Literal: edge(Z,Y)    p1= 4, n1=14, FOIL Gain=2.9479
+  Candidate Literal: path(Z,Y)    p1= 4, n1=14, FOIL Gain=2.9479
+  Candidate Literal: path(X,Z)    p1= 4, n1=14, FOIL Gain=2.9479
+Selected Literal: edge(X,Z)
+Selected FOIL Gain: 2.9479
+Updated Rule: path(X,Y) :- edge(X,Z).
+Updated coverage: p1=4, n1=14
+
+Current coverage: p0=4, n0=14
+Candidate literals and FOIL Gain:
+  Candidate Literal: edge(X,Y)    p1= 0, n1= 0, FOIL Gain=-inf
+  Candidate Literal: edge(Z,Y)    p1= 3, n1= 0, FOIL Gain=6.5098
+  Candidate Literal: path(Z,Y)    p1= 4, n1= 0, FOIL Gain=8.6797
+  Candidate Literal: path(X,Z)    p1= 4, n1=14, FOIL Gain=0.0000
+Selected Literal: path(Z,Y)
+Selected FOIL Gain: 8.6797
+Updated Rule: path(X,Y) :- edge(X,Z), path(Z,Y).
+Updated coverage: p1=4, n1=0
+
+Learned Rule 2:
+path(X,Y) :- edge(X,Z), path(Z,Y).
+Positive examples covered: 4
+Remaining positive examples: 0
+
+Final Learned Rules:
+path(X,Y) :- edge(X,Y).
+path(X,Y) :- edge(X,Z), path(Z,Y).
+
+FOIL Learning Finished

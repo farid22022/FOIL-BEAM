@@ -1,0 +1,14 @@
+Expected SWI-Prolog Query Output
+--------------------------------
+
+?- edge(1,2).
+true.
+
+?- path(1,5).
+true.
+
+?- path(4,5).
+true.
+
+?- path(2,5).
+false.
