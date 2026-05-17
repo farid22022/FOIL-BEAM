@@ -1,195 +1,120 @@
-# FOIL and Beam Search Assignment Project
+# FOIL and Beam Search Algorithm Implementation on Lecture Graph Dataset
 
-Topic: **FOIL Algorithm and Beam Search Algorithm Implementation on a Given Dataset**
+This is a short university assignment project for implementing simplified FOIL and Beam Search algorithms on the graph dataset from the class lecture slide.
 
-This project is prepared as a university assignment-ready implementation. It uses the **Play Tennis** dataset to demonstrate:
+The background predicate is:
 
-- FOIL-style rule learning in Python
-- FOIL-style logical rules in Prolog
-- Beam Search implementation in Python
-- Dataset files, output files, and full documentation
+```prolog
+edge(X,Y)
+```
 
-## Project Structure
+The target predicate is:
 
-```text
-foil-beam-assignment/
-|-- dataset/
-|   |-- data.csv
-|   `-- facts.pl
-|-- foil/
-|   |-- foil_python.py
-|   `-- foil_prolog.pl
-|-- beam_search/
-|   `-- beam_search.py
-|-- outputs/
-|   |-- foil_python_output.txt
-|   |-- foil_prolog_output.txt
-|   `-- beam_search_output.txt
-|-- documentation/
-|   `-- assignment_report.md
-`-- README.md
+```prolog
+path(X,Y)
+```
+
+The final path rules are:
+
+```prolog
+path(X,Y) :- edge(X,Y).
+path(X,Y) :- edge(X,Z), path(Z,Y).
 ```
 
 ## Dataset
 
-The project uses the **Play Tennis** dataset.
-
-Input attributes:
-
-- `outlook`
-- `temperature`
-- `humidity`
-- `wind`
-
-Target/output column:
-
-- `play_tennis`
-
-Example row:
+Nodes:
 
 ```text
-Outlook = sunny
-Temperature = cool
-Humidity = normal
-Wind = weak
-Output = yes
+1, 2, 3, 4, 5, 6
 ```
 
-## Run FOIL in Python
-
-From inside the `foil-beam-assignment` folder, run:
-
-```powershell
-python foil\foil_python.py
-```
-
-Save output:
-
-```powershell
-python foil\foil_python.py > outputs\foil_python_output.txt
-```
-
-The program prints:
-
-- Positive examples
-- Negative examples
-- Candidate rules
-- Selected FOIL-style rules
-- Classification result
-- Accuracy
-
-## Run Beam Search in Python
-
-From inside the `foil-beam-assignment` folder, run:
-
-```powershell
-python beam_search\beam_search.py
-```
-
-Save output:
-
-```powershell
-python beam_search\beam_search.py > outputs\beam_search_output.txt
-```
-
-The program prints:
-
-- Initial state
-- Beam width
-- Candidate states
-- Scoring values
-- Selected beam states at each level
-- Final best rule
-
-## Run Prolog Code
-
-Install SWI-Prolog first:
-
-```text
-https://www.swi-prolog.org/
-```
-
-Open SWI-Prolog from the project folder and load the Prolog file:
+Edges:
 
 ```prolog
-?- ['foil/foil_prolog.pl'].
+edge(1,2).
+edge(1,3).
+edge(3,6).
+edge(4,2).
+edge(4,6).
+edge(6,5).
 ```
 
-Sample queries:
+Positive path examples are stored manually from the lecture graph. Negative examples are generated from all ordered pairs of nodes that are not positive path examples.
+
+## Folder Structure
+
+```text
+FOIL_BeamSearch_Graph_Assignment/
+|
+|-- data/
+|   `-- graph_dataset.py
+|
+|-- src/
+|   |-- dataset.py
+|   |-- foil.py
+|   |-- beam_search.py
+|   `-- main.py
+|
+|-- prolog/
+|   `-- graph_path_rules.pl
+|
+|-- output/
+|   |-- foil_output.txt
+|   |-- beam_search_output.txt
+|   `-- prolog_query_output.txt
+|
+|-- documentation/
+|   `-- assignment_report.md
+|
+`-- README.md
+```
+
+## Commands
+
+Run full project:
+
+```bash
+python src/main.py
+```
+
+Run FOIL:
+
+```bash
+python src/foil.py
+```
+
+Run Beam Search:
+
+```bash
+python src/beam_search.py
+```
+
+Run Prolog:
+
+```bash
+swipl
+```
+
+Then in SWI-Prolog:
 
 ```prolog
-?- play_tennis(d9, yes).
-?- classify(d9, Result).
-?- test_all.
-?- accuracy.
-?- halt.
-```
-
-Expected result for `d9`:
-
-```text
-Result = yes.
-```
-
-## Learned FOIL Rules
-
-The final FOIL-style rules are:
-
-```text
-IF outlook = overcast THEN play_tennis = yes
-IF outlook = rainy AND wind = weak THEN play_tennis = yes
-IF outlook = sunny AND humidity = normal THEN play_tennis = yes
-OTHERWISE play_tennis = no
+?- ['prolog/graph_path_rules.pl'].
+?- path(1,5).
+?- path(4,5).
+?- path(2,5).
 ```
 
 ## Output Files
 
-Generated output files are stored in:
+The Python program generates:
 
 ```text
-outputs/
+output/foil_output.txt
+output/beam_search_output.txt
+output/prolog_query_output.txt
 ```
 
-Files:
+## 2-Minute Explanation
 
-- `outputs/foil_python_output.txt`
-- `outputs/beam_search_output.txt`
-- `outputs/foil_prolog_output.txt`
-
-These files can be used for assignment screenshots or hard-copy result sections.
-
-## Documentation
-
-Full assignment documentation is available here:
-
-```text
-documentation/assignment_report.md
-```
-
-The report includes:
-
-- English explanation
-- Bangla explanation
-- Dataset table
-- FOIL algorithm explanation
-- Beam Search explanation
-- Prolog beginner guide
-- Code listings
-- Commands
-- Expected outputs
-
-## Requirements
-
-Python:
-
-```text
-Python 3.10 or later
-```
-
-Prolog:
-
-```text
-SWI-Prolog
-```
-
-No external Python libraries are required.
+I used the graph dataset from the lecture slide. The background predicate is `edge(X,Y)`, and the target predicate is `path(X,Y)`. FOIL learned rules by selecting useful literals using FOIL Gain. Beam Search searched candidate path rules using beam width 3. The final rules were `path(X,Y) :- edge(X,Y)` and `path(X,Y) :- edge(X,Z), path(Z,Y)`. Finally, I represented these rules in Prolog and tested path queries.
